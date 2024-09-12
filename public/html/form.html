@@ -8,9 +8,17 @@
   </head>
   <body>
     <form action="procesar" method="post">
-      <input type="text" name="nombre" />
-      <input type="text" name="apellido" />
-      <input type="submit" value="enviar" />
+      <label for="departamento">
+        Departamento:
+        <select name="departamento" id="departamento">
+          <option value="junin">Junin</option>
+          <option value="Ayacucho">Ayacucho</option>
+        </select>
+      </label>
+      <label for="">
+        palabra clave: <input type="text" name="keyWord" />
+      </label>
+      <input type="submit" />
     </form>
   </body>
 </html>

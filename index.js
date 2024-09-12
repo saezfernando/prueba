@@ -7,10 +7,31 @@ let mimiddleware = function (req, res, next) {
 };
 
 app.use(express.urlencoded());
+app.use(express.json());
+/*
 app.use(express.static("public/html"));
 app.use(express.static("public/imagenes"));
 app.use(express.static("public/styles"));
 app.use(express.static("public/js"));
+*/
+
+app.get("/", (req, res) => {
+  res.sendFile(__dirname + "/public/html/form.html");
+});
+
+app.post("/json", (req, res) => {
+  res.json(req.body);
+});
+
+app.get("/traducir", (req, res) => {});
+
+app.get("/productos/:id/color/:color", (req, res) => {
+  res.send(`el producto ${req.params.id} - ${req.params.color}`);
+});
+
+app.get("/productos", (req, res) => {
+  res.send(`el producto ${req.query.color}`);
+});
 
 app.get("/usuario/:dni", (req, res) => {
   res.send(
@@ -22,21 +43,25 @@ app.get("/usuario/:dni", (req, res) => {
       "</h1>"
   );
 });
-
+/*
 app.get("/personas", mimiddleware, (req, res) => {
   res.status(200).send("manejo de ruta archivo.dat");
 });
-
+*/
 app.post("/procesar", (req, res) => {
-  res.json(req.body);
+  res.send(
+    `El departamento ${req.body.departamento} es con palabra clave ${req.body.keyWord}`
+  );
 });
 
 app.get("/redirigir", (req, res) => {
   res.redirect(301, "/form.html");
 });
 
+app.all("*", (req, res) => {
+  res.status(404).send("No se encontro la ruta");
+});
+
 app.listen(3000, () => {
   console.log("Servidor iniciado");
 });
-
-module.exports = app;
