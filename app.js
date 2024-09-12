@@ -35,6 +35,8 @@ app.get("/redirigir", (req, res) => {
   res.redirect(301, "/form.html");
 });
 
-app.listen(8888, () => {
+app.listen(3000, () => {
   console.log("Servidor iniciado");
 });
+
+module.exports = app;
