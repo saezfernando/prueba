@@ -1,4 +1,6 @@
 const express = require("express");
+const $mysql = require("mysql2/promise");
+//require("dotenv").config();
 const app = express();
 
 let mimiddleware = function (req, res, next) {
@@ -8,19 +10,29 @@ let mimiddleware = function (req, res, next) {
 
 app.use(express.urlencoded());
 app.use(express.json());
-/*
+
 app.use(express.static("public/html"));
 app.use(express.static("public/imagenes"));
 app.use(express.static("public/styles"));
 app.use(express.static("public/js"));
-*/
 
 app.get("/", (req, res) => {
   res.sendFile(__dirname + "/public/html/form.html");
 });
 
-app.post("/json", (req, res) => {
-  res.json(req.body);
+app.get("/nueva", (req, res) => {
+  res.send("nueva");
+});
+
+app.get("/personas", async (req, res) => {
+  $conn = await $mysql.createConnection({
+    host: process.env.MYSQL_HOST || "localhost",
+    user: process.env.MYSQL_USER || "root",
+    password: process.env.MYSQL_PASSWORD || "",
+    database: process.env.MYSQL_DB || "pruebadb",
+  });
+  const [$result] = await $conn.query("select * from persona");
+  res.json($result);
 });
 
 app.get("/traducir", (req, res) => {});
